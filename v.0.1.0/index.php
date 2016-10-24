@@ -15,7 +15,6 @@ session_start();
 //  réponse HTTP avant d'avoir commencé à envoyer du contenu)
 ob_start();
 
-
 // Vérification URL du type /controlleur/methode
 if (isset($_SERVER['PATH_INFO'])) {
 	$arg = explode('/', $_SERVER['PATH_INFO']);
@@ -34,31 +33,27 @@ if (isset($_SERVER['PATH_INFO'])) {
 
 		//Test si le controller existe dans le répertoire 'controllers'
 		$controller_file = 'controllers/'.$c.'.php';
-		if(($co = file_exist($controller_file, $c, $m, $param)) === false){	
-			header('Location :'.BASEURL.'/index.php');
+		if(($co = file_exist($controller_file, $c, $m, $param, true)) === false){
+			header('Location:'.BASEURL.'/index.php');
 			exit();
 		}
 		
 	}else if(count($arg) === 2){
-		if(($co = file_exist('controllers/'.$arg[1].'.php', $arg[1], 'index', array())) === false){
-			header('Location :'.BASEURL.'/index.php');
+		if(($co = file_exist('controllers/'.$arg[1].'.php', $arg[1], 'index', array(), true)) === false){
+			header('Location:'.BASEURL.'/index.php');
 			exit();
 		}
 	}
 } else{
     require_once 'controllers/Default.php';
     $co = new Controller_Default();
+    create_constant_script_controller($co);
     $co->index();
 //    include ACCUEIL;
 }
 
-if($co !== NULL && $co !== false){
-	$classname = get_class($co);
-	$name = strtolower(str_replace('Controller_', '', $classname));
-	$script_name_path = BASEURL.'/'.SCRIPT_PATH.'/'.$name.'/script_'.$name.'.js';
-	define('SCRIPT_PATH_CURRENT_CONTROLLER', $script_name_path);
-	echo SCRIPT_PATH_CURRENT_CONTROLLER;
-}
+
+echo SCRIPT_PATH_CURRENT_CONTROLLER;
 
 // récupération du contenu du buffer de sortie
 $content = ob_get_clean();

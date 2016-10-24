@@ -5,7 +5,7 @@ include TEMPLATES_MENU;
 ?>
 
 <body>
-	<form method="POST" id="create_folder" action="<?= BASEURL ?>/index.php/foldercreator">
+	<form method="POST" id="create_folder" action="<?= BASEURL ?>/index.php">
 		<input type="submit" name="create_folder" value="Create folder"/>
 	</form>
 </body>

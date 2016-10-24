@@ -3,6 +3,6 @@
 class Controller_Main{
 	
 	public function index(){
-		echo 'index main';
+		include 'views/accueil/accueil.php';
 	}
 }
